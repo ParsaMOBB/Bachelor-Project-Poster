@@ -1,0 +1,112 @@
+% ---------------------------------------------------------------------------
+% Results panel.  Every number here comes from evaluation/results.csv of the
+% implementation repository (tool 1.0.0, commit 3d63904); nothing is retyped
+% from prose.
+% ---------------------------------------------------------------------------
+\newcommand{\ResultsContent}{%
+
+\vspace{-.10cm}
+\noindent
+\PosterStat[PosterGreen]{\pct{۷۶٫۲}}{بیشترین کاهش حالت\\(نمونهٔ \code{notify})}\hfill
+\PosterStat[PosterPurple]{۳ $\to$ ۱}{سه مدل متفاوت،\\یک خارج‌قسمت یکسان}\hfill
+\PosterStat[PosterBlue]{۱۷۸}{آزمون موفق\\(۱۱۶ واحد + ۶۲ انتهابه‌انتها)}
+\vspace{.22cm}
+
+چهار ورودی: یک نمونهٔ کوچک و سه بیان از مطالعهٔ موردی خانهٔ هوشمند، که در هر سه
+فقط \code{getSense}، \code{activateh} و \code{switchoff} قابل مشاهده‌اند.
+
+\vspace{.12cm}
+\begin{latin}
+\centering
+\begin{tikzpicture}
+  \begin{axis}[
+    ybar,
+    width=22.6cm, height=6.6cm,
+    bar width=1.05cm,
+    enlarge x limits=.17,
+    ymin=0, ymax=56,
+    ylabel={states},
+    ylabel style={font=\fontsize{18}{22}\selectfont},
+    symbolic x coords={tiny,smart-home,tc2step,notify},
+    xtick=data,
+    tick label style={font=\fontsize{18}{22}\selectfont},
+    axis lines=left,
+    grid=major,
+    grid style={PosterMuted!25},
+    nodes near coords,
+    nodes near coords style={font=\fontsize{16}{19}\selectfont},
+  ]
+    \addplot[draw=PosterPurple,fill=PosterPurple!75] coordinates
+      {(tiny,6) (smart-home,16) (tc2step,25) (notify,42)};
+    \addplot[draw=PosterGreen,fill=PosterGreen!65] coordinates
+      {(tiny,2) (smart-home,10) (tc2step,10) (notify,10)};
+    \draw[PosterGreen,dashed,line width=1.5pt]
+      (axis cs:smart-home,10) -- (axis cs:notify,10);
+    \node[anchor=south west,font=\fontsize{15}{19}\selectfont,text=PosterGreen]
+      at (axis cs:smart-home,10.8) {same quotient: 10 states / 12 transitions};
+    \node[anchor=south,font=\fontsize{16}{20}\selectfont,text=PosterMuted]
+      at (axis cs:tiny,7.0)        {$-66.7\%$};
+    \node[anchor=south,font=\fontsize{16}{20}\selectfont,text=PosterMuted]
+      at (axis cs:smart-home,17.5) {$-37.5\%$};
+    \node[anchor=south,font=\fontsize{16}{20}\selectfont,text=PosterMuted]
+      at (axis cs:tc2step,26.5)    {$-60.0\%$};
+    \node[anchor=south,font=\fontsize{16}{20}\selectfont,text=PosterMuted]
+      at (axis cs:notify,43.5)     {$-76.2\%$};
+  \end{axis}
+\end{tikzpicture}
+\end{latin}
+\vspace{-.10cm}
+
+{\centering\fontsize{18}{23}\selectfont
+\textcolor{PosterPurple}{\rule{.50cm}{.28cm}}\,فضای حالت افرا\hspace{1.0cm}
+\textcolor{PosterGreen!80}{\rule{.50cm}{.28cm}}\,خارج‌قسمت وارسی‌شده\par}
+
+\PosterHighlight[PosterGreen]{%
+\textbf{نتیجه‌ای که باید با آن شروع کرد:} هر سه بیان خانهٔ هوشمند — با ۱۶، ۲۵ و
+۴۲ حالت — به \emph{یک} افراز ۲۸ رده‌ای و \emph{یک} مدل ۱۰ حالتی می‌رسند: شاهدی
+قوی‌تر از یک پاسخ «بله».}
+
+{\postertitlefont\fontsize{28}{36}\selectfont پیش و پس از کاهش\par}
+\vspace{.18cm}
+
+\begin{center}
+\begin{minipage}[t]{11.8cm}
+  \centering
+  {\fontsize{20}{26}\selectfont\color{PosterPurple}\bfseries
+   فضای حالت ورودی افرا\par}
+  \vspace{.15cm}
+  \includegraphics[height=10.0cm]{assets/figures/smarthome-original.pdf}\par
+  \vspace{.15cm}
+  {\fontsize{19}{25}\selectfont ۱۶ حالت، ۱۸ گذار\par}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{1.4cm}
+  \centering
+  \vspace{4.4cm}
+  {\color{PosterGreen}$\boldsymbol{\longleftarrow}$}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{10.2cm}
+  \centering
+  {\fontsize{20}{26}\selectfont\color{PosterGreen}\bfseries
+   مدل خارج‌قسمتی وارسی‌شده\par}
+  \vspace{.15cm}
+  \includegraphics[height=10.0cm]{assets/figures/smarthome-reduced.pdf}\par
+  \vspace{.15cm}
+  {\fontsize{19}{25}\selectfont ۱۰ حالت، ۱۲ گذار\par}
+\end{minipage}
+\end{center}
+
+\vspace{.05cm}
+{\fontsize{18}{24}\selectfont
+یال‌های قرمز و ضخیم گذر زمان‌اند و $\tau$ کنش داخلی پنهان‌شده است. هر درصد کاهش
+فقط در کنار همان مجموعهٔ مشاهده معنا دارد.\par}
+
+\vspace{.12cm}
+{\fontsize{21}{28}\selectfont
+\PosterLead{حساسیت معنایی:} با \code{-{}-time-semantics strict}، نمونهٔ پایه و
+\code{tc2step} \emph{ناهم‌ارز} گزارش می‌شوند؛ آزمون \code{SemanticSensitivity}
+همین را تثبیت می‌کند.\par
+\PosterLead{هزینهٔ اجرا:} ۵۰ تا ۶۳ میلی‌ثانیه و کمتر از \num{۸٫۳} مگابایت پشته
+روی \code{arm64 / OpenJDK 17.0.10} — زیر سایهٔ راه‌اندازی \code{JVM}.\par}
+}

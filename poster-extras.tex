@@ -1,0 +1,191 @@
+% ---------------------------------------------------------------------------
+% Project-local additions on top of the stock tehran-poster class.
+% The class itself is kept pristine so the template stays updatable.
+% ---------------------------------------------------------------------------
+
+% \rowcolor for the results table.  xcolor is already loaded by the class, so
+% only the table hook itself is missing.
+\usepackage{colortbl}
+
+% Slightly narrower side padding than the stock 1.55cm, to buy text width.
+\setlength\PosterPanelPadding{1.45cm}
+
+% The stock paragraph gap is generous for a template with four short panels;
+% this poster runs denser, so tighten it a little.
+\setlength{\parskip}{.28cm}
+
+% Accent colours used by the figures and highlight boxes.
+\definecolor{PosterGreen}{HTML}{1C7C54}
+\definecolor{PosterRed}{HTML}{C0392B}
+
+% ---------------------------------------------------------------------------
+% Bidirectional text inside TikZ.
+%
+% TikZ builds node bodies in LTR mode.  `text width` + `align` then hands the
+% paragraph to the LTR line breaker and Persian words come out in reverse
+% order.  Wrapping the body in a minipage gives the paragraph back to the
+% bidi engine, so every node that holds Persian prose goes through \RTLnodebox.
+% ---------------------------------------------------------------------------
+\newcommand{\RTLnodebox}[2]{%
+  \begin{minipage}{#1}\setRTL #2\end{minipage}%
+}
+
+% Persian numbers that carry a decimal separator or a percent sign have to be
+% typeset as one RTL run; Latin digits inside Persian prose get reordered.
+\newcommand{\num}[1]{\rl{#1}}
+\newcommand{\pct}[1]{\rl{#1٪}}
+
+% ---------------------------------------------------------------------------
+% Header.  The stock header assumes a short title; this project's title runs to
+% two lines, so the box is a little taller and the type a little smaller.
+% ---------------------------------------------------------------------------
+\renewcommand{\PosterHeader}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[
+      anchor=north west,
+      rounded corners=.7cm,
+      fill=PosterPanel,
+      minimum width=56.8cm,
+      minimum height=11.00cm,
+      inner sep=0
+    ] (posterheader) at ([xshift=1.3cm,yshift=-.85cm]current page.north west) {};
+    \node[anchor=west,inner sep=0] at ([xshift=1.15cm]posterheader.west)
+      {\includegraphics[width=7.4cm,height=6.0cm,keepaspectratio]{\PosterLeftLogo}};
+    \node[anchor=east,inner sep=0] at ([xshift=-1.15cm]posterheader.east)
+      {\includegraphics[width=6.2cm,height=6.2cm,keepaspectratio]{\PosterRightLogo}};
+    \node[anchor=center,inner sep=0] at ([yshift=.05cm]posterheader.center) {%
+      \RTLnodebox{40cm}{%
+        \centering
+        {\postertitlefont\fontsize{54}{68}\selectfont\PosterTitle\par}
+        \vspace{.45cm}
+        {\bfseries\fontsize{33}{42}\selectfont
+          دانشجو: \PosterStudent\hspace{1.6cm}استاد راهنما: \PosterSupervisor\par}
+        \vspace{.14cm}
+        {\bfseries\fontsize{24}{32}\selectfont \PosterAffiliation
+         \ifx\PosterDate\empty\else\quad--\quad\PosterDate\fi\par}
+      }%
+    };
+  \end{tikzpicture}%
+}
+
+% ---------------------------------------------------------------------------
+% Self-measuring panel.
+%
+% \PosterBlock from the class needs an explicit height, which makes the layout
+% fragile while the text is still moving.  \PosterAutoBlock typesets the body
+% into a box first, then draws a white panel exactly as tall as that box and
+% publishes the result in \PosterBlockHeight so main.tex can stack panels.
+%
+%   #1 body font size (optional, default 26)
+%   #2 panel title
+%   #3 x from the left page edge
+%   #4 y from the top page edge
+%   #5 panel width
+%   #6 panel body
+% ---------------------------------------------------------------------------
+\newsavebox\PosterBodyBox
+\newlength\PosterBlockHeight
+
+% Panel title size.  54pt matches the PowerPoint original; the footer band
+% lowers it so the references do not cost more vertical room than they earn.
+\newcommand{\PosterTitleSize}{46}
+
+\NewDocumentCommand{\PosterAutoBlock}{O{26} m m m m +m}{%
+  \sbox\PosterBodyBox{%
+    \begin{minipage}{\dimexpr#5-2\PosterPanelPadding\relax}
+      \setRTL
+      \centering
+      {\postertitlefont\fontsize{\PosterTitleSize}{\dimexpr\PosterTitleSize pt+12pt\relax}\selectfont #2\par}
+      \vspace{.35cm}
+      \justifying
+      \fontsize{#1}{\dimexpr#1pt+8pt\relax}\selectfont
+      #6
+    \end{minipage}%
+  }%
+  \setlength\PosterBlockHeight{%
+    \dimexpr\ht\PosterBodyBox+\dp\PosterBodyBox+1.75cm\relax}%
+  \typeout{POSTER PANEL HEIGHT [#2] = \the\PosterBlockHeight}%
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[
+      anchor=north west,
+      rounded corners=.62cm,
+      fill=PosterPanel,
+      minimum width=#5,
+      minimum height=\PosterBlockHeight,
+      inner sep=0
+    ] (posterautoblock) at ([xshift=#3,yshift=-#4]current page.north west) {};
+    \node[anchor=north west,inner sep=0] at
+      ([xshift=\PosterPanelPadding,yshift=-1.05cm]posterautoblock.north west)
+      {\usebox\PosterBodyBox};
+  \end{tikzpicture}%
+}
+
+% Same as \PosterAutoBlock, but #4 is the gap from the BOTTOM page edge.  Used
+% for the references band, which should sit flush with the bottom margin
+% whatever height its content turns out to need.
+\NewDocumentCommand{\PosterAutoBlockBottom}{O{26} m m m m +m}{%
+  \sbox\PosterBodyBox{%
+    \begin{minipage}{\dimexpr#5-2\PosterPanelPadding\relax}
+      \setRTL
+      \centering
+      {\postertitlefont\fontsize{\PosterTitleSize}{\dimexpr\PosterTitleSize pt+12pt\relax}\selectfont #2\par}
+      \vspace{.35cm}
+      \justifying
+      \fontsize{#1}{\dimexpr#1pt+8pt\relax}\selectfont
+      #6
+    \end{minipage}%
+  }%
+  \setlength\PosterBlockHeight{%
+    \dimexpr\ht\PosterBodyBox+\dp\PosterBodyBox+1.75cm\relax}%
+  \typeout{POSTER PANEL HEIGHT [#2] = \the\PosterBlockHeight}%
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[
+      anchor=south west,
+      rounded corners=.62cm,
+      fill=PosterPanel,
+      minimum width=#5,
+      minimum height=\PosterBlockHeight,
+      inner sep=0
+    ] (posterfooterblock) at ([xshift=#3,yshift=#4]current page.south west) {};
+    \node[anchor=north west,inner sep=0] at
+      ([xshift=\PosterPanelPadding,yshift=-1.05cm]posterfooterblock.north west)
+      {\usebox\PosterBodyBox};
+  \end{tikzpicture}%
+}
+
+% ---------------------------------------------------------------------------
+% A tinted, rounded call-out for the one sentence a panel is really about.
+% ---------------------------------------------------------------------------
+\newlength\PosterCalloutWidth
+\newcommand{\PosterHighlight}[2][PosterBlue]{%
+  \par\vspace{.22cm}%
+  \setlength\PosterCalloutWidth{\dimexpr\linewidth-1.30cm\relax}%
+  \noindent\begin{tikzpicture}
+    \node[
+      fill=#1!13,
+      draw=#1!55,
+      line width=1.2pt,
+      rounded corners=.35cm,
+      inner sep=.55cm
+    ] {\RTLnodebox{\PosterCalloutWidth}{\justifying #2}};
+  \end{tikzpicture}\par\vspace{.22cm}%
+}
+
+% ---------------------------------------------------------------------------
+% A headline figure: one large number with a short Persian caption under it.
+% Used as a row of three across the top of the results panel.
+% ---------------------------------------------------------------------------
+\newcommand{\PosterStat}[3][PosterPurple]{%
+  \begin{minipage}[t]{.315\linewidth}
+    \centering
+    {\color{#1}\bfseries\fontsize{48}{54}\selectfont #2\par}
+    \vspace{.14cm}
+    {\fontsize{19}{25}\selectfont #3\par}
+  \end{minipage}%
+}
+
+% A run-in bold lead-in for the "project at a glance" lines.
+\newcommand{\PosterLead}[1]{\textbf{#1}\hspace{.18cm}}
+
+% Short-hand for inline Latin identifiers.
+\let\code\lr

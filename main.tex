@@ -1,0 +1,47 @@
+% !TeX program = xelatex
+\documentclass{tehran-poster}
+
+\input{poster-extras}
+\input{config}
+\input{sections/introduction}
+\input{sections/method}
+\input{sections/results}
+\input{sections/conclusion}
+\input{sections/references}
+
+\newlength\ColRight
+\newlength\ColLeft
+
+\begin{document}
+\PosterBackground
+\PosterHeader
+
+% Panels are stacked from the top of each column.  \PosterAutoBlock measures its
+% own body and reports the resulting height in \PosterBlockHeight, so editing the
+% text in sections/ never requires re-tuning coordinates here.
+\setlength\ColRight{12.00cm}
+\setlength\ColLeft{12.00cm}
+
+% Right column -- where a Persian reader starts.
+\PosterAutoBlock[24]{مقدمه / خلاصه}
+  {30.35cm}{\ColRight}{27.75cm}{\IntroductionContent}%
+\addtolength\ColRight{\PosterBlockHeight}\addtolength\ColRight{.50cm}
+\PosterAutoBlock[22]{روش و مدل پیشنهادی}
+  {30.35cm}{\ColRight}{27.75cm}{\MethodContent}
+
+% Left column.
+\PosterAutoBlock[22]{نتایج}
+  {1.30cm}{\ColLeft}{28.05cm}{\ResultsContent}%
+\addtolength\ColLeft{\PosterBlockHeight}\addtolength\ColLeft{.50cm}
+\PosterAutoBlock[22]{جمع‌بندی}
+  {1.30cm}{\ColLeft}{28.05cm}{\ConclusionContent}
+
+% References run the full width of the page as a footer band, which keeps both
+% content columns the same length and matches where a reader expects them.
+\renewcommand{\PosterTitleSize}{38}%
+\PosterAutoBlockBottom[18]{مراجع اصلی}
+  {1.30cm}{1.15cm}{56.75cm}{\ReferencesContent}
+
+% The page is built from overlay modules; this anchor emits exactly one page.
+\null
+\end{document}

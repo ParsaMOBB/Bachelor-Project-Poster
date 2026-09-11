@@ -1,0 +1,121 @@
+% ---------------------------------------------------------------------------
+% Method panel: the pipeline, the semantic finding, and the implementation.
+% ---------------------------------------------------------------------------
+
+% One stage of the pipeline band.  Chips are placed at explicit coordinates so
+% the band reads right-to-left like the rest of the poster.
+\newcommand{\StageChip}[4]{%
+  \node[
+    anchor=center,
+    rounded corners=.26cm,
+    fill=PosterPurple!#4,
+    text=white,
+    minimum width=7.05cm,
+    minimum height=2.00cm,
+    inner sep=.16cm
+  ] (#1) at (#2)
+    {\RTLnodebox{6.55cm}{\centering\fontsize{18}{22}\selectfont #3\par}};
+}
+
+\newcommand{\MethodContent}{%
+
+ورودی، فایل \code{.statespace} افراست — بدون ویرایش دستی. کاربر فقط
+\emph{مجموعهٔ مشاهده} را می‌دهد؛ هر تعامل دیگر به کنش داخلی $\tau$ بدل می‌شود.
+
+\vspace{.12cm}
+\begin{center}
+\begin{tikzpicture}[>=stealth,line width=1.3pt]
+  % Row 1, read from the right.
+  \StageChip{s1}{ 8.00,0}{خواندن خروجی افرا\\[-.10cm]{\footnotesize\code{.statespace}}}{100}
+  \StageChip{s2}{ 0.00,0}{پنهان‌سازی تعامل‌های\\[-.10cm]خارج از مجموعهٔ مشاهده}{86}
+  \StageChip{s3}{-8.00,0}{پالایش تأخیر\\[-.10cm]به گام‌های یک‌واحدی}{72}
+  % Row 2, also read from the right.
+  \StageChip{s4}{ 8.00,-3.10}{پالایش افراز\\[-.10cm]تا رسیدن به پایداری}{58}
+  \StageChip{s5}{ 0.00,-3.10}{ساخت خارج‌قسمت و\\[-.10cm]فشرده‌سازی زنجیرهٔ زمان}{44}
+  \node[
+    anchor=center,rounded corners=.26cm,fill=PosterGreen,text=white,
+    minimum width=7.05cm,minimum height=2.00cm,inner sep=.16cm
+  ] (s6) at (-8.00,-2.92)
+    {\RTLnodebox{6.55cm}{\centering\fontsize{18}{22}\selectfont
+       وارسی مستقل\\[-.10cm]رابطهٔ خروجی و ورودی\par}};
+
+  \draw[->,PosterPurple!70] (s1) -- (s2);
+  \draw[->,PosterPurple!70] (s2) -- (s3);
+  \draw[->,PosterPurple!70] (s3.south) -- ++(0,-.42) -- (8.00,-1.46) -- (s4.north);
+  \draw[->,PosterPurple!70] (s4) -- (s5);
+  \draw[->,PosterPurple!70] (s5) -- (s6);
+\end{tikzpicture}
+\end{center}
+
+\PosterHighlight[PosterGreen]{%
+کاهش‌دهنده و وارسی‌گر دو مسیر کد \emph{جداگانه}‌اند. پنج جهش مخرب روی مدل
+خارج‌قسمتی اعمال شد و هر پنج رد شدند — ابزار پاسخ «بله» بدون شاهد تحویل نمی‌دهد.}
+
+{\postertitlefont\fontsize{28}{36}\selectfont یک ابهام در شبه‌کد، و حل آن\par}
+
+شبه‌کد، بستار تأخیر ضعیف را با \emph{یک} یال $d$‌واحدی میان گام‌های خاموش تعریف
+می‌کند، ولی توضیح خودش و تعریف مرجع از «هر اجرای بی‌کنش با مدت کل $d$» سخن
+می‌گویند — دو رابطهٔ متفاوت. مطالعهٔ موردی میان آن‌ها داوری می‌کند:
+
+\vspace{.10cm}
+\begin{center}
+\begin{tikzpicture}[
+  >=stealth,
+  st/.style={circle,draw=PosterText,line width=1pt,fill=white,minimum size=.80cm,inner sep=0},
+  del/.style={->,line width=2.4pt,PosterRed},
+  tau/.style={->,line width=1.5pt,PosterText,dashed},
+  lb/.style={font=\fontsize{19}{23}\selectfont,inner sep=2pt},
+  rw/.style={font=\fontsize{19}{24}\selectfont,inner sep=0,anchor=east}
+]
+  % --- Run A: one 10-unit delay -------------------------------------------
+  \node[st,fill=PosterBlue!35] (a0) at (0,0) {};
+  \node[st] (a1) at (7.2,0) {};
+  \draw[del] (a0) -- node[lb,above,text=PosterRed]{$10$} (a1);
+  \node[rw,text=PosterPurple] at (-.55,0) {\bfseries SmartHome};
+
+  % --- Run B: 7 + tau + 3 --------------------------------------------------
+  \node[st,fill=PosterBlue!35] (b0) at (0,-1.78) {};
+  \node[st] (b1) at (4.6,-1.78) {};
+  \node[st] (b2) at (7.0,-1.78) {};
+  \node[st] (b3) at (9.4,-1.78) {};
+  \draw[del] (b0) -- node[lb,above,text=PosterRed]{$7$} (b1);
+  \draw[tau] (b1) -- node[lb,above]{$\tau$} (b2);
+  \draw[del] (b2) -- node[lb,above,text=PosterRed]{$3$} (b3);
+  \node[rw,text=PosterPurple] at (-.55,-1.78) {\bfseries tc2step};
+
+  % --- Run C: 3 + tau + 7 --------------------------------------------------
+  \node[st,fill=PosterBlue!35] (c0) at (0,-3.56) {};
+  \node[st] (c1) at (2.4,-3.56) {};
+  \node[st] (c2) at (4.8,-3.56) {};
+  \node[st] (c3) at (9.4,-3.56) {};
+  \draw[del] (c0) -- node[lb,above,text=PosterRed]{$3$} (c1);
+  \draw[tau] (c1) -- node[lb,above]{$\tau$} (c2);
+  \draw[del] (c2) -- node[lb,above,text=PosterRed]{$7$} (c3);
+  \node[rw,text=PosterPurple] at (-.55,-3.56) {\bfseries notify};
+
+  % --- Legend --------------------------------------------------------------
+  \draw[del] (0,-4.72) -- (1.35,-4.72);
+  \node[anchor=west,font=\fontsize{17}{21}\selectfont] at (1.55,-4.72) {\rl{گذر زمان}};
+  \draw[tau] (4.85,-4.72) -- (6.20,-4.72);
+  \node[anchor=west,font=\fontsize{17}{21}\selectfont] at (6.40,-4.72) {\rl{کنش داخلی}};
+\end{tikzpicture}
+\end{center}
+\vspace{.04cm}
+
+هر سه اجرا میان دو کنش قابل مشاهده دقیقاً ۱۰ واحد زمان می‌گذرانند. با خوانش
+تحت‌اللفظی، مدل نخست یال هفت‌واحدی ندارد تا به دومی پاسخ دهد و هر سه
+\emph{ناهم‌ارز} می‌شوند — درحالی‌که قرارداد پذیرش پروژه هر سه را هم‌ارز اعلام
+کرده است.
+
+\vspace{.12cm}
+{\fontsize{21}{28}\selectfont
+\PosterLead{راه‌حل:} ورودی یک‌بار بازنویسی می‌شود تا هر یال با مدت $d$ به $d$ یال
+یک‌واحدی بدل شود. آنگاه $\Rightarrow^{d}$ ترکیب $d$‌بارهٔ $\Rightarrow^{1}$ است:
+رابطه‌ای که برچسب یکتای \code{delay(1)} را حفظ کند، هر مدتی را حفظ می‌کند و
+مجموعهٔ برچسب‌ها بدون کران روی $d$ متناهی می‌ماند — معنای \code{unit}، پیش‌فرض
+ابزار.\par
+\PosterLead{پیاده‌سازی:} \code{awtr} — جاوا ۱۷، هشت بسته، بدون وابستگی بیرون از
+\code{JDK}؛ فرمان‌های \code{reduce}، \code{equivalent}، \code{inspect} و
+\code{visualize}. نتیجهٔ اصلی \code{reduced.json} است، در کنار
+\code{partition.json} و نمای سازگار با افرا.\par}
+}
