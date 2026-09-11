@@ -40,6 +40,11 @@ band along the bottom.
 | left column (x = 1.30 cm) | نتایج، جمع‌بندی |
 | footer band (full width) | مراجع اصلی |
 
+The two columns are kept within a few millimetres of each other in height by
+moving the references into the footer band; `main.tex` prints every measured
+panel height to the log (`POSTER PANEL HEIGHT`), which is how the fit is
+checked after an edit.
+
 Panels are placed with `\PosterAutoBlock[size]{title}{x}{y}{width}{body}` from
 `poster-extras.tex`. Each panel measures its own body first and sizes the white
 box to match, publishing the result in `\PosterBlockHeight`; `main.tex` chains
@@ -50,14 +55,26 @@ for the references band.
 
 ### Right-to-left notes
 
-TikZ builds node bodies in LTR mode, so `text width` + `align` hands Persian
-paragraphs to the LTR line breaker and the words come out reversed. Every node
-containing Persian prose therefore goes through `\RTLnodebox`, which wraps the
-body in a `minipage` and gives the paragraph back to the bidi engine.
+Two traps cost real time here, both recorded in `poster-extras.tex`:
 
-Numbers carrying a decimal separator are wrapped in `\num{}` / `\pct{}` for the
-same reason. Charts, the reference list and other Latin blocks sit inside the
-`latin` environment.
+**TikZ node bodies are built in LTR mode.** `text width` + `align` hands a
+Persian paragraph to the LTR line breaker and the words come out in reverse
+order. Every node containing Persian prose therefore goes through
+`\RTLnodebox`, which wraps the body in a `minipage` and gives the paragraph
+back to the bidi engine.
+
+**Decimal numbers written with Persian digits come out mirrored.** The
+separator is a bidi-neutral that splits the digits into two runs, which the RTL
+paragraph then orders right-to-left — `۱۲۳٫۴۵` renders as `۴۵٫۱۲۳`. Integers
+are safe (one unbroken run); anything with a separator goes through `\num{}` /
+`\pct{}`, which typeset an explicit LTR Latin run. This is the convention the
+thesis uses too.
+
+Charts, the reference list and the state-space figures sit inside the `latin`
+environment. The time-semantics figure is built from minipages rather than a
+`tabular`, because `bidi` patches `\@tabular` in terms of
+`\UseMathForPositioningText`, which older `array.sty` releases — including the
+one in the CI image — do not define.
 
 ## Figures
 
@@ -67,14 +84,21 @@ same reason. Charts, the reference list and other Latin blocks sit inside the
 ./tools/make_figures.sh
 ```
 
-The script runs `awtr visualize` on `smarthome.statespace` for the "before"
-graph and renders the recorded `evaluation/raw/smart-home/reduced.dot` for the
-"after" graph, both as vector PDF. Override the source repo or jar with
-`AWTR_ROOT` / `AWTR_JAR`.
+The script produces, all as vector PDF:
 
-The pipeline diagram, the time-additivity figure and the results chart are
-drawn inline with TikZ/PGFPlots in `sections/`, so they stay vector and
-editable.
+| figure | source |
+| --- | --- |
+| `smarthome-original.pdf` | `awtr visualize` on `evaluation/models/smarthome.statespace` |
+| `smarthome-reduced.pdf` | the recorded `evaluation/raw/smart-home/reduced.dot` |
+| `observable-then-split-delay.pdf`, `observable-then-delay.pdf`, `delay-observable-delay.pdf` | `awtr visualize` on the three `src/test/resources/readme/` fixtures — the same models the implementation README uses to explain observable time |
+
+Override the source repo or jar with `AWTR_ROOT` / `AWTR_JAR`. Graphviz's
+default 14pt labels do not survive being scaled down to poster size, so the
+script enlarges the type and drops the `@0` execution-time noise before laying
+each graph out.
+
+The pipeline diagram and the results chart are drawn inline with TikZ/PGFPlots
+in `sections/`, so they stay vector and editable.
 
 ## Data provenance
 
