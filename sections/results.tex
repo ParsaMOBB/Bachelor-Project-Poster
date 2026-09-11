@@ -5,9 +5,9 @@
 % ---------------------------------------------------------------------------
 \newcommand{\ResultsContent}{%
 
-ابزار روی چهار ورودی ارزیابی شد: یک نمونهٔ کوچک، و سه بیان از مطالعهٔ موردی خانهٔ
-هوشمند که در هر سه فقط \code{getSense}، \code{activateh} و \code{switchoff}
-قابل مشاهده‌اند. وارسی‌گر مستقل هر چهار رابطه را پذیرفت.
+در نمودار زیر نتیجهٔ اجرای این الگوریتم روی سه \code{TTS} مربوط به یک خانهٔ
+هوشمند را مشاهده می‌کنید که همگی با هم هم‌ارزند. در هر سه، تنها
+\code{getSense}، \code{activateh} و \code{switchoff} قابل مشاهده‌اند.
 
 \vspace{.12cm}
 \begin{latin}
@@ -15,38 +15,34 @@
 \begin{tikzpicture}
   \begin{axis}[
     ybar,
-    width=22.6cm, height=6.6cm,
+    width=22.6cm, height=7.4cm,
     bar width=1.05cm,
-    enlarge x limits=.26,
+    enlarge x limits=.30,
     clip=false,
     ymin=0, ymax=52,
-    ytick={0,10,20,30,40,50},
-    ylabel={states},
-    ylabel style={font=\fontsize{18}{22}\selectfont},
-    symbolic x coords={tiny,smart-home,tc2step,notify},
+    symbolic x coords={smart-home,tc2step,notify},
     xtick=data,
     xticklabels={%
-      {tiny\\[-2pt]\textcolor{PosterGreen}{$-66.7\%$}},
       {smart-home\\[-2pt]\textcolor{PosterGreen}{$-37.5\%$}},
       {tc2step\\[-2pt]\textcolor{PosterGreen}{$-60.0\%$}},
       {notify\\[-2pt]\textcolor{PosterGreen}{$-76.2\%$}}},
     x tick label style={align=center,font=\fontsize{17}{21}\selectfont},
-    y tick label style={font=\fontsize{17}{21}\selectfont},
-    axis lines=left,
-    grid=major,
-    grid style={PosterMuted!25},
+    % Every bar carries its own value, so y ticks and gridlines would only
+    % repeat information -- and the leftmost label collided with them.
+    axis x line=bottom,
+    axis y line=none,
     nodes near coords,
     nodes near coords style={font=\fontsize{16}{19}\selectfont},
   ]
     \addplot[draw=PosterPurple,fill=PosterPurple!75] coordinates
-      {(tiny,6) (smart-home,16) (tc2step,25) (notify,42)};
+      {(smart-home,16) (tc2step,25) (notify,42)};
     \addplot[draw=PosterGreen,fill=PosterGreen!65] coordinates
-      {(tiny,2) (smart-home,10) (tc2step,10) (notify,10)};
+      {(smart-home,10) (tc2step,10) (notify,10)};
     \draw[PosterGreen,dashed,line width=1.5pt]
       (axis cs:smart-home,10) -- (axis cs:notify,10);
     \node[anchor=west,font=\fontsize{16}{20}\selectfont,text=PosterGreen,
           fill=white,inner sep=2pt]
-      at (axis cs:tiny,44) {same quotient: 10 states / 12 transitions};
+      at (axis cs:smart-home,44) {same quotient: 10 states / 12 transitions};
   \end{axis}
 \end{tikzpicture}
 \end{latin}
@@ -57,8 +53,9 @@
 \textcolor{PosterGreen!80}{\rule{.50cm}{.28cm}}\,خارج‌قسمت وارسی‌شده\par}
 
 \PosterHighlight[PosterGreen]{%
-هر سه بیان خانهٔ هوشمند — با ۱۶، ۲۵ و ۴۲ حالت — به یک افراز ۲۸ رده‌ای و یک مدل
-۱۰ حالتی و ۱۲ گذاری می‌رسند؛ نتیجه‌ای سازگار با ادعای هم‌ارزی آن‌ها.}
+هر سه بیان — با ۱۶، ۲۵ و ۴۲ حالت — به یک افراز ۲۸ رده‌ای و در نهایت به یک مدل
+۱۰ حالتی و ۱۲ گذاری می‌رسند؛ سه نمودار که جداگانه رونویسی شده‌اند و روی یک
+خارج‌قسمت می‌نشینند.}
 
 {\postertitlefont\fontsize{28}{36}\selectfont پیش و پس از کاهش\par}
 \vspace{.18cm}
@@ -69,14 +66,14 @@
   {\fontsize{20}{26}\selectfont\color{PosterPurple}\bfseries
    فضای حالت ورودی افرا\par}
   \vspace{.15cm}
-  \includegraphics[height=9.6cm]{assets/figures/smarthome-original.pdf}\par
+  \includegraphics[height=14.2cm]{assets/figures/smarthome-original.pdf}\par
   \vspace{.15cm}
   {\fontsize{19}{25}\selectfont ۱۶ حالت، ۱۸ گذار\par}
 \end{minipage}%
 \hfill
 \begin{minipage}[t]{1.4cm}
   \centering
-  \vspace{4.2cm}
+  \vspace{6.5cm}
   {\color{PosterGreen}$\boldsymbol{\longleftarrow}$}
 \end{minipage}%
 \hfill
@@ -85,7 +82,7 @@
   {\fontsize{20}{26}\selectfont\color{PosterGreen}\bfseries
    مدل خارج‌قسمتی وارسی‌شده\par}
   \vspace{.15cm}
-  \includegraphics[height=9.6cm]{assets/figures/smarthome-reduced.pdf}\par
+  \includegraphics[height=14.2cm]{assets/figures/smarthome-reduced.pdf}\par
   \vspace{.15cm}
   {\fontsize{19}{25}\selectfont ۱۰ حالت، ۱۲ گذار\par}
 \end{minipage}
@@ -95,10 +92,4 @@
 {\fontsize{18}{24}\selectfont
 یال‌های قرمز و ضخیم گذر زمان‌اند و $\tau$ کنش داخلی پنهان‌شده است. هر درصد کاهش
 فقط در کنار همان مجموعهٔ مشاهده معنا دارد.\par}
-
-\vspace{.12cm}
-{\fontsize{21}{28}\selectfont
-\PosterLead{هزینهٔ اجرا:} ۵۰ تا ۶۳ میلی‌ثانیه و کمتر از \num{8.3} مگابایت پشته.
-این اعداد زیر سایهٔ زمان راه‌اندازی \code{JVM} قرار دارند و بزرگ‌ترین ورودی
-آزموده‌شده ۴۲ حالت دارد، پس مبنای نتیجه‌گیری دربارهٔ مقیاس‌پذیری نیستند.\par}
 }

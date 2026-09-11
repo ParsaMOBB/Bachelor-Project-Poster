@@ -103,18 +103,19 @@ in `sections/`, so they stay vector and editable.
 ## Data provenance
 
 Every number on the poster comes from `evaluation/results.csv` of the
-implementation repository (tool v1.0.0, commit `3d63904`):
+implementation repository (tool v1.0.0, commit `3d63904`). The poster charts
+the three SmartHome models, which are mutually weak timed bisimilar:
 
 | model | states | transitions | state reduction |
 | --- | --- | --- | --- |
-| tiny | 6 → 2 | 7 → 2 | 66.7 % |
 | smart-home | 16 → 10 | 18 → 12 | 37.5 % |
 | smart-home-tc2step | 25 → 10 | 28 → 12 | 60.0 % |
 | smart-home-notify | 42 → 10 | 52 → 12 | 76.2 % |
 
-116 unit tests and 62 end-to-end checks pass in that build. The three
-SmartHome models reduce to the same 28-class partition and the same 10-state,
-12-transition quotient.
+They reduce to the same 28-class partition and the same 10-state,
+12-transition quotient. `results.csv` also carries a fourth case, `tiny`
+(6 → 2 states, 66.7 %), which is a hand-checkable smoke test and is not
+charted. 116 unit tests and 62 end-to-end checks pass in that build.
 
 Reduction percentages are only meaningful alongside the observable set they
 were measured with (`getSense`, `activateh`, `switchoff` for the SmartHome
