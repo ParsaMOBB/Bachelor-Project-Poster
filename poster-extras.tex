@@ -3,9 +3,9 @@
 % The class itself is kept pristine so the template stays updatable.
 % ---------------------------------------------------------------------------
 
-% \rowcolor for the results table.  xcolor is already loaded by the class, so
-% only the table hook itself is missing.
-\usepackage{colortbl}
+% Brings in array.sty, whose m{} column type vertically centres the TTS row
+% labels against their figures.
+\usepackage{array}
 
 % Slightly narrower side padding than the stock 1.55cm, to buy text width.
 \setlength\PosterPanelPadding{1.45cm}
@@ -54,7 +54,7 @@
       rounded corners=.7cm,
       fill=PosterPanel,
       minimum width=56.8cm,
-      minimum height=11.00cm,
+      minimum height=10.55cm,
       inner sep=0
     ] (posterheader) at ([xshift=1.3cm,yshift=-.85cm]current page.north west) {};
     \node[anchor=west,inner sep=0] at ([xshift=1.15cm]posterheader.west)
@@ -177,19 +177,6 @@
       inner sep=.55cm
     ] {\RTLnodebox{\PosterCalloutWidth}{\justifying #2}};
   \end{tikzpicture}\par\vspace{.22cm}%
-}
-
-% ---------------------------------------------------------------------------
-% A headline figure: one large number with a short Persian caption under it.
-% Used as a row of three across the top of the results panel.
-% ---------------------------------------------------------------------------
-\newcommand{\PosterStat}[3][PosterPurple]{%
-  \begin{minipage}[t]{.315\linewidth}
-    \centering
-    {\color{#1}\bfseries\fontsize{48}{54}\selectfont #2\par}
-    \vspace{.14cm}
-    {\fontsize{19}{25}\selectfont #3\par}
-  \end{minipage}%
 }
 
 % A run-in bold lead-in for the "project at a glance" lines.
