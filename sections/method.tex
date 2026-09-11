@@ -1,5 +1,6 @@
 % ---------------------------------------------------------------------------
-% Method panel: the pipeline, the semantic finding, and the implementation.
+% Method panel: the pipeline, what "observable" means once time is involved,
+% the algorithm steps, and validation.
 % ---------------------------------------------------------------------------
 
 % One stage of the pipeline band.  Chips are placed at explicit coordinates so
@@ -11,111 +12,88 @@
     fill=PosterPurple!#4,
     text=white,
     minimum width=7.05cm,
-    minimum height=2.00cm,
-    inner sep=.16cm
+    minimum height=1.90cm,
+    inner sep=.14cm
   ] (#1) at (#2)
-    {\RTLnodebox{6.55cm}{\centering\fontsize{18}{22}\selectfont #3\par}};
+    {\RTLnodebox{6.55cm}{\centering\fontsize{17}{21}\selectfont #3\par}};
 }
 
 \newcommand{\MethodContent}{%
 
-ورودی، فایل \code{.statespace} افراست — بدون ویرایش دستی. کاربر فقط
-\emph{مجموعهٔ مشاهده} را می‌دهد؛ هر تعامل دیگر به کنش داخلی $\tau$ بدل می‌شود.
+ورودی، فایل \code{.statespace} افراست؛ بدون ویرایش دستی. کاربر \emph{مجموعهٔ
+مشاهده} را می‌دهد و هر تعامل دیگری به گذار داخلی $\tau$ بدل می‌شود.
 
-\vspace{.12cm}
+\vspace{.10cm}
 \begin{center}
-\begin{tikzpicture}[>=stealth,line width=1.3pt]
+\begin{tikzpicture}[>=stealth,line width=1.2pt]
   % Row 1, read from the right.
   \StageChip{s1}{ 8.00,0}{خواندن خروجی افرا\\[-.10cm]{\footnotesize\code{.statespace}}}{100}
   \StageChip{s2}{ 0.00,0}{پنهان‌سازی تعامل‌های\\[-.10cm]خارج از مجموعهٔ مشاهده}{86}
-  \StageChip{s3}{-8.00,0}{پالایش تأخیر\\[-.10cm]به گام‌های یک‌واحدی}{72}
+  \StageChip{s3}{-8.00,0}{شکستن یال‌های زمانی\\[-.10cm]به گام‌های یک‌واحدی}{72}
   % Row 2, also read from the right.
-  \StageChip{s4}{ 8.00,-3.10}{پالایش افراز\\[-.10cm]تا رسیدن به پایداری}{58}
-  \StageChip{s5}{ 0.00,-3.10}{ساخت خارج‌قسمت و\\[-.10cm]فشرده‌سازی زنجیرهٔ زمان}{44}
+  \StageChip{s4}{ 8.00,-2.72}{پالایش افراز\\[-.10cm]تا رسیدن به پایداری}{58}
+  \StageChip{s5}{ 0.00,-2.72}{ساخت خارج‌قسمت و\\[-.10cm]فشرده‌سازی زنجیرهٔ زمان}{44}
   \node[
     anchor=center,rounded corners=.26cm,fill=PosterGreen,text=white,
-    minimum width=7.05cm,minimum height=2.00cm,inner sep=.16cm
-  ] (s6) at (-8.00,-2.92)
-    {\RTLnodebox{6.55cm}{\centering\fontsize{18}{22}\selectfont
+    minimum width=7.05cm,minimum height=1.90cm,inner sep=.14cm
+  ] (s6) at (-8.00,-2.72)
+    {\RTLnodebox{6.55cm}{\centering\fontsize{17}{21}\selectfont
        وارسی مستقل\\[-.10cm]رابطهٔ خروجی و ورودی\par}};
 
   \draw[->,PosterPurple!70] (s1) -- (s2);
   \draw[->,PosterPurple!70] (s2) -- (s3);
-  \draw[->,PosterPurple!70] (s3.south) -- ++(0,-.42) -- (8.00,-1.46) -- (s4.north);
+  \draw[->,PosterPurple!70] (s3.south) -- ++(0,-.40) -- (8.00,-1.37) -- (s4.north);
   \draw[->,PosterPurple!70] (s4) -- (s5);
   \draw[->,PosterPurple!70] (s5) -- (s6);
 \end{tikzpicture}
 \end{center}
 
-\PosterHighlight[PosterGreen]{%
-کاهش‌دهنده و وارسی‌گر دو مسیر کد \emph{جداگانه}‌اند. پنج جهش مخرب روی مدل
-خارج‌قسمتی اعمال شد و هر پنج رد شدند — ابزار پاسخ «بله» بدون شاهد تحویل نمی‌دهد.}
+{\postertitlefont\fontsize{27}{34}\selectfont زمان از دید مشاهده‌گر بیرونی\par}
+\vspace{-.06cm}
 
-{\postertitlefont\fontsize{28}{36}\selectfont یک ابهام در شبه‌کد، و حل آن\par}
-
-شبه‌کد، بستار تأخیر ضعیف را با \emph{یک} یال $d$‌واحدی میان گام‌های خاموش تعریف
-می‌کند، ولی توضیح خودش و تعریف مرجع از «هر اجرای بی‌کنش با مدت کل $d$» سخن
-می‌گویند — دو رابطهٔ متفاوت. مطالعهٔ موردی میان آن‌ها داوری می‌کند:
+{\fontsize{19}{25}\selectfont یال سیاه \code{a} کنش قابل مشاهده است،
+\code{tau} گذار داخلی، و یال‌های قرمز گذر زمان با مدت دقیق.\par}
 
 \vspace{.10cm}
-\begin{center}
-\begin{tikzpicture}[
-  >=stealth,
-  st/.style={circle,draw=PosterText,line width=1pt,fill=white,minimum size=.80cm,inner sep=0},
-  del/.style={->,line width=2.4pt,PosterRed},
-  tau/.style={->,line width=1.5pt,PosterText,dashed},
-  lb/.style={font=\fontsize{19}{23}\selectfont,inner sep=2pt},
-  rw/.style={font=\fontsize{19}{24}\selectfont,inner sep=0,anchor=east}
-]
-  % --- Run A: one 10-unit delay -------------------------------------------
-  \node[st,fill=PosterBlue!35] (a0) at (0,0) {};
-  \node[st] (a1) at (7.2,0) {};
-  \draw[del] (a0) -- node[lb,above,text=PosterRed]{$10$} (a1);
-  \node[rw,text=PosterPurple] at (-.55,0) {\bfseries SmartHome};
+\begin{latin}
+\centering
+\begin{tabular}{@{}r@{\hspace{.40cm}}l@{}}
+  \fontsize{18}{22}\selectfont\bfseries TTS 1 &
+    \includegraphics[height=2.00cm]{assets/figures/observable-then-split-delay.pdf}\\[.18cm]
+  \fontsize{18}{22}\selectfont\bfseries TTS 2 &
+    \includegraphics[height=2.00cm]{assets/figures/observable-then-delay.pdf}\\[.18cm]
+  \fontsize{18}{22}\selectfont\bfseries TTS 3 &
+    \includegraphics[height=2.00cm]{assets/figures/delay-observable-delay.pdf}\\
+\end{tabular}
+\end{latin}
+\vspace{.14cm}
 
-  % --- Run B: 7 + tau + 3 --------------------------------------------------
-  \node[st,fill=PosterBlue!35] (b0) at (0,-1.78) {};
-  \node[st] (b1) at (4.6,-1.78) {};
-  \node[st] (b2) at (7.0,-1.78) {};
-  \node[st] (b3) at (9.4,-1.78) {};
-  \draw[del] (b0) -- node[lb,above,text=PosterRed]{$7$} (b1);
-  \draw[tau] (b1) -- node[lb,above]{$\tau$} (b2);
-  \draw[del] (b2) -- node[lb,above,text=PosterRed]{$3$} (b3);
-  \node[rw,text=PosterPurple] at (-.55,-1.78) {\bfseries tc2step};
+در \code{TTS 1} و \code{TTS 2} کنش \code{a} در لحظهٔ صفر رخ می‌دهد و سپس ده واحد
+زمان می‌گذرد؛ گام داخلی \code{tau} دیده نمی‌شود و زمان سپری‌شده را از نو آغاز
+نمی‌کند، پس این دو \textbf{هم‌ارزند}. در \code{TTS 3} هم ده واحد زمان می‌گذرد،
+اما \code{a} پس از پنج واحد رخ می‌دهد: پنهان‌سازی روی گذارهای داخلی اعمال
+می‌شود، نه روی \emph{لحظهٔ} وقوع یک کنش قابل مشاهده. پس \code{TTS 3} با آن دو
+\textbf{هم‌ارز نیست}.
 
-  % --- Run C: 3 + tau + 7 --------------------------------------------------
-  \node[st,fill=PosterBlue!35] (c0) at (0,-3.56) {};
-  \node[st] (c1) at (2.4,-3.56) {};
-  \node[st] (c2) at (4.8,-3.56) {};
-  \node[st] (c3) at (9.4,-3.56) {};
-  \draw[del] (c0) -- node[lb,above,text=PosterRed]{$3$} (c1);
-  \draw[tau] (c1) -- node[lb,above]{$\tau$} (c2);
-  \draw[del] (c2) -- node[lb,above,text=PosterRed]{$7$} (c3);
-  \node[rw,text=PosterPurple] at (-.55,-3.56) {\bfseries notify};
-
-  % --- Legend --------------------------------------------------------------
-  \draw[del] (0,-4.72) -- (1.35,-4.72);
-  \node[anchor=west,font=\fontsize{17}{21}\selectfont] at (1.55,-4.72) {\rl{گذر زمان}};
-  \draw[tau] (4.85,-4.72) -- (6.20,-4.72);
-  \node[anchor=west,font=\fontsize{17}{21}\selectfont] at (6.40,-4.72) {\rl{کنش داخلی}};
-\end{tikzpicture}
-\end{center}
-\vspace{.04cm}
-
-هر سه اجرا میان دو کنش قابل مشاهده دقیقاً ۱۰ واحد زمان می‌گذرانند. با خوانش
-تحت‌اللفظی، مدل نخست یال هفت‌واحدی ندارد تا به دومی پاسخ دهد و هر سه
-\emph{ناهم‌ارز} می‌شوند — درحالی‌که قرارداد پذیرش پروژه هر سه را هم‌ارز اعلام
-کرده است.
-
+\vspace{.10cm}
+{\fontsize{20}{26}\selectfont
+\PosterLead{گام‌های الگوریتم ---}\par
+\PosterLead{۱.} هر یال زمانی با مدت $d$ به $d$ یال یک‌واحدی شکسته می‌شود؛
+حالت‌های میانیِ تازه شناسه‌های یکتا می‌گیرند تا با حالت‌های موجود اشتباه نشوند.\par
+\PosterLead{۲.} حالا همهٔ گذارهای زمانی برچسب یکسان \code{delay(1)} دارند، پس
+پالایش افراز زمان و کنش را یکنواخت بررسی می‌کند، بی‌آنکه روی مقدار $d$ کرانی
+لازم باشد.\par
+\PosterLead{۳.} افراز تا پایداری پالایش می‌شود؛ سپس خارج‌قسمت ساخته و
+زنجیره‌های صرفاً زمانی در یک یال با مدت جمع‌شده فشرده می‌شوند.\par
 \vspace{.12cm}
-{\fontsize{21}{28}\selectfont
-\PosterLead{راه‌حل:} ورودی یک‌بار بازنویسی می‌شود تا هر یال با مدت $d$ به $d$ یال
-یک‌واحدی بدل شود. آنگاه $\Rightarrow^{d}$ ترکیب $d$‌بارهٔ $\Rightarrow^{1}$ است:
-رابطه‌ای که برچسب یکتای \code{delay(1)} را حفظ کند، هر مدتی را حفظ می‌کند و
-مجموعهٔ برچسب‌ها بدون کران روی $d$ متناهی می‌ماند — معنای \code{unit}، پیش‌فرض
-ابزار.\par
-\PosterLead{پیاده‌سازی:} \code{awtr} — جاوا ۱۷، هشت بسته، بدون وابستگی بیرون از
-\code{JDK}؛ فرمان‌های \code{reduce}، \code{equivalent}، \code{inspect} و
-\code{visualize}. نتیجهٔ اصلی \code{reduced.json} است، در کنار
-\code{partition.json} و نمای سازگار با افرا.\par}
+\vspace{.10cm}
+\PosterLead{ابزار:} \code{awtr} — جاوا ۱۷؛ فرمان‌های \code{reduce}،
+\code{equivalent}، \code{inspect} و \code{visualize}. خروجی اصلی
+\code{reduced.json} است، در کنار \code{partition.json} که هر حالت ورودی را به
+ردهٔ خود نگاشت می‌کند. توسعه آزمون‌محور (\code{TDD}) پیش رفت: ۱۱۶ آزمون واحد و
+۶۲ بررسی انتهابه‌انتها.\par}
+
+\PosterHighlight[PosterGreen]{%
+کاهش‌دهنده و وارسی‌گر دو مسیر کد \emph{جداگانه}‌اند: وارسی‌گر رابطهٔ خروجی و
+ورودی را مستقل از الگوریتم کاهش بازمی‌سنجد.}
 }

@@ -42,3 +42,16 @@ restyle() {
 
 restyle original 22 18
 restyle reduced  26 22
+
+# The three README time-semantics models, laid out left-to-right: they are the
+# worked example for what "observable" means once time is involved.
+for m in observable-then-delay observable-then-split-delay delay-observable-delay; do
+  java -jar "$AWTR_JAR" visualize \
+    "$AWTR_ROOT/src/test/resources/readme/$m.statespace" \
+    --output "$TMP/$m.dot" >/dev/null
+  sed -e 's/\\n @0"/"/g' \
+      -e 's/^  rankdir=TB;/  rankdir=LR;\n  node [fontname="Helvetica", fontsize=20];\n  edge [fontname="Helvetica", fontsize=20];\n  nodesep=0.30; ranksep=0.80;/' \
+      "$TMP/$m.dot" > "$TMP/$m-poster.dot"
+  dot -Tpdf "$TMP/$m-poster.dot" -o "$OUT/$m.pdf"
+  echo "wrote $OUT/$m.pdf"
+done

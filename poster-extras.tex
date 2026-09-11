@@ -30,10 +30,18 @@
   \begin{minipage}{#1}\setRTL #2\end{minipage}%
 }
 
-% Persian numbers that carry a decimal separator or a percent sign have to be
-% typeset as one RTL run; Latin digits inside Persian prose get reordered.
-\newcommand{\num}[1]{\rl{#1}}
-\newcommand{\pct}[1]{\rl{#1٪}}
+% Decimal numbers.
+%
+% A number written with Persian digits and a decimal separator comes out
+% MIRRORED in this configuration: the separator is a bidi-neutral that splits
+% the digits into two runs, which the RTL paragraph then orders right-to-left,
+% so ۱۲۳٫۴۵ renders as ۴۵٫۱۲۳.  Integers are safe (one unbroken run), but
+% anything with a separator has to be typeset as an explicit LTR Latin run.
+% This is the same convention the thesis uses (\lr{37.5} درصد).
+%
+% Both take LATIN digits: \pct{76.2}, \num{8.3}.
+\newcommand{\num}[1]{\lr{#1}}
+\newcommand{\pct}[1]{\lr{#1\%}}
 
 % ---------------------------------------------------------------------------
 % Header.  The stock header assumes a short title; this project's title runs to
