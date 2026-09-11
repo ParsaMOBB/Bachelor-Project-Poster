@@ -50,7 +50,7 @@
       rounded corners=.7cm,
       fill=PosterPanel,
       minimum width=56.8cm,
-      minimum height=10.55cm,
+      minimum height=9.80cm,
       inner sep=0
     ] (posterheader) at ([xshift=1.3cm,yshift=-.85cm]current page.north west) {};
     \node[anchor=west,inner sep=0] at ([xshift=1.15cm]posterheader.west)
@@ -115,6 +115,50 @@
       rounded corners=.62cm,
       fill=PosterPanel,
       minimum width=#5,
+      minimum height=\PosterBlockHeight,
+      inner sep=0
+    ] (posterautoblock) at ([xshift=#3,yshift=-#4]current page.north west) {};
+    \node[anchor=north west,inner sep=0] at
+      ([xshift=\PosterPanelPadding,yshift=-1.05cm]posterautoblock.north west)
+      {\usebox\PosterBodyBox};
+  \end{tikzpicture}%
+}
+
+% Like \PosterAutoBlock, but the panel is stretched -- never shrunk -- so that
+% its bottom edge lands on #5, measured from the top of the page.  Used for the
+% last panel of each column so both columns finish on the same line whatever
+% their content measures.  If the body is taller than the target allows, the
+% panel keeps its natural height and the logged height says so.
+%
+%   #1 body font size   #2 title   #3 x   #4 y of the panel top
+%   #5 y the panel bottom should reach   #6 panel width   #7 body
+\newlength\PosterWantedHeight
+\NewDocumentCommand{\PosterAutoBlockTo}{O{26} m m m m m +m}{%
+  \sbox\PosterBodyBox{%
+    \begin{minipage}{\dimexpr#6-2\PosterPanelPadding\relax}
+      \setRTL
+      \centering
+      {\postertitlefont\fontsize{\PosterTitleSize}{\dimexpr\PosterTitleSize pt+12pt\relax}\selectfont #2\par}
+      \vspace{.35cm}
+      \justifying
+      \fontsize{#1}{\dimexpr#1pt+8pt\relax}\selectfont
+      #7
+    \end{minipage}%
+  }%
+  \setlength\PosterBlockHeight{%
+    \dimexpr\ht\PosterBodyBox+\dp\PosterBodyBox+1.75cm\relax}%
+  \setlength\PosterWantedHeight{\dimexpr#5-#4\relax}%
+  \ifdim\PosterWantedHeight>\PosterBlockHeight
+    \setlength\PosterBlockHeight{\PosterWantedHeight}%
+  \fi
+  \typeout{POSTER PANEL HEIGHT [#2] = \the\PosterBlockHeight
+           (wanted \the\PosterWantedHeight)}%
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[
+      anchor=north west,
+      rounded corners=.62cm,
+      fill=PosterPanel,
+      minimum width=#6,
       minimum height=\PosterBlockHeight,
       inner sep=0
     ] (posterautoblock) at ([xshift=#3,yshift=-#4]current page.north west) {};

@@ -19,22 +19,29 @@
 % Panels are stacked from the top of each column.  \PosterAutoBlock measures its
 % own body and reports the resulting height in \PosterBlockHeight, so editing the
 % text in sections/ never requires re-tuning coordinates here.
+%
+% The title band ends at 10.65cm and the references band starts at 74.82cm, so
+% the two content columns sit between them with a ~0.9cm gap at each end.  The
+% last panel of each column is placed with \PosterAutoBlockTo, which stretches
+% it down to \PosterColumnBottom; that is what keeps the two columns finishing
+% on the same line as their contents change.
 \setlength\ColRight{11.55cm}
 \setlength\ColLeft{11.55cm}
+\newcommand{\PosterColumnBottom}{73.90cm}
 
 % Right column -- where a Persian reader starts.
 \PosterAutoBlock[24]{مقدمه / خلاصه}
   {30.35cm}{\ColRight}{27.75cm}{\IntroductionContent}%
 \addtolength\ColRight{\PosterBlockHeight}\addtolength\ColRight{.50cm}
-\PosterAutoBlock[21]{روش و مدل پیشنهادی}
-  {30.35cm}{\ColRight}{27.75cm}{\MethodContent}
+\PosterAutoBlockTo[21]{روش و مدل پیشنهادی}
+  {30.35cm}{\ColRight}{\PosterColumnBottom}{27.75cm}{\MethodContent}
 
 % Left column.
 \PosterAutoBlock[22]{نتایج}
   {1.30cm}{\ColLeft}{28.05cm}{\ResultsContent}%
 \addtolength\ColLeft{\PosterBlockHeight}\addtolength\ColLeft{.50cm}
-\PosterAutoBlock[22]{جمع‌بندی}
-  {1.30cm}{\ColLeft}{28.05cm}{\ConclusionContent}
+\PosterAutoBlockTo[22]{جمع‌بندی}
+  {1.30cm}{\ColLeft}{\PosterColumnBottom}{28.05cm}{\ConclusionContent}
 
 % References run the full width of the page as a footer band, which keeps both
 % content columns the same length and matches where a reader expects them.
