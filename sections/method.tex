@@ -18,6 +18,19 @@
     {\RTLnodebox{6.55cm}{\centering\fontsize{17}{21}\selectfont #3\par}};
 }
 
+% One labelled row of the time-semantics figure.  Built from minipages, not a
+% tabular: bidi patches \@tabular in terms of \UseMathForPositioningText, which
+% older TeX Live array.sty releases do not provide, and the CI image is one of
+% them.  [c] alignment centres the label against the graph.
+\newcommand{\TTSRow}[2]{%
+  \begin{minipage}[c]{2.40cm}%
+    \raggedright\fontsize{18}{22}\selectfont\bfseries #1%
+  \end{minipage}%
+  \begin{minipage}[c]{17.0cm}%
+    \includegraphics[height=3.00cm]{#2}%
+  \end{minipage}%
+}
+
 \newcommand{\MethodContent}{%
 
 ورودی، فایل \code{.statespace} افراست؛ بدون ویرایش دستی. کاربر \emph{مجموعهٔ
@@ -57,14 +70,9 @@
 \vspace{.04cm}
 \begin{latin}
 \centering
-\begin{tabular}{@{}>{\centering\arraybackslash}m{2.1cm}@{\hspace{.40cm}}m{17.0cm}@{}}
-  \fontsize{18}{22}\selectfont\bfseries TTS 1 &
-    \includegraphics[height=3.00cm]{assets/figures/observable-then-split-delay.pdf}\\[.18cm]
-  \fontsize{18}{22}\selectfont\bfseries TTS 2 &
-    \includegraphics[height=3.00cm]{assets/figures/observable-then-delay.pdf}\\[.18cm]
-  \fontsize{18}{22}\selectfont\bfseries TTS 3 &
-    \includegraphics[height=3.00cm]{assets/figures/delay-observable-delay.pdf}\\
-\end{tabular}
+\TTSRow{TTS 1}{assets/figures/observable-then-split-delay.pdf}\par\vspace{.30cm}
+\TTSRow{TTS 2}{assets/figures/observable-then-delay.pdf}\par\vspace{.30cm}
+\TTSRow{TTS 3}{assets/figures/delay-observable-delay.pdf}
 \end{latin}
 \vspace{.14cm}
 
