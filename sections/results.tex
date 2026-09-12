@@ -1,94 +1,84 @@
 % ---------------------------------------------------------------------------
-% Results panel.  Every number here comes from evaluation/results.csv of the
-% implementation repository (tool 1.0.0, commit 3d63904); nothing is retyped
-% from prose.
+% Results panel.  Every number here comes from the implementation repository
+% (tool 1.0.0): the four benchmark rows of evaluation/results.csv and the seven
+% RMC-generated fixtures under src/test/resources/rebeca-generated.  Nothing is
+% retyped from prose.
+%
+% The mean below is the unweighted mean of the eleven per-run state-reduction
+% ratios (16.7, 30.0, 37.5, 50.0, 60.0, 66.7, 69.6, 71.4, 76.2, 89.5, 89.5).
 % ---------------------------------------------------------------------------
 \newcommand{\ResultsContent}{%
 
-در نمودار زیر نتیجهٔ اجرای این الگوریتم روی سه \code{TTS} مربوط به یک خانهٔ
-هوشمند را مشاهده می‌کنید که همگی با هم هم‌ارزند. در هر سه، تنها
-\code{getSense}، \code{activateh} و \code{switchoff} قابل مشاهده‌اند.
-
-\vspace{.12cm}
-\begin{latin}
-\centering
-\begin{tikzpicture}
-  \begin{axis}[
-    ybar,
-    width=22.6cm, height=7.05cm,
-    bar width=1.05cm,
-    enlarge x limits=.30,
-    clip=false,
-    ymin=0, ymax=52,
-    symbolic x coords={smart-home,tc2step,notify},
-    xtick=data,
-    xticklabels={%
-      {smart-home\\[-2pt]\textcolor{PosterGreen}{$-37.5\%$}},
-      {tc2step\\[-2pt]\textcolor{PosterGreen}{$-60.0\%$}},
-      {notify\\[-2pt]\textcolor{PosterGreen}{$-76.2\%$}}},
-    x tick label style={align=center,font=\fontsize{17}{21}\selectfont},
-    % Every bar carries its own value, so y ticks and gridlines would only
-    % repeat information -- and the leftmost label collided with them.
-    axis x line=bottom,
-    axis y line=none,
-    nodes near coords,
-    nodes near coords style={font=\fontsize{16}{19}\selectfont},
-  ]
-    \addplot[draw=PosterPurple,fill=PosterPurple!75] coordinates
-      {(smart-home,16) (tc2step,25) (notify,42)};
-    \addplot[draw=PosterGreen,fill=PosterGreen!65] coordinates
-      {(smart-home,10) (tc2step,10) (notify,10)};
-    \draw[PosterGreen,dashed,line width=1.5pt]
-      (axis cs:smart-home,10) -- (axis cs:notify,10);
-    \node[anchor=west,font=\fontsize{16}{20}\selectfont,text=PosterGreen,
-          fill=white,inner sep=2pt]
-      at (axis cs:smart-home,44) {same quotient: 10 states / 12 transitions};
-  \end{axis}
-\end{tikzpicture}
-\end{latin}
-\vspace{-.10cm}
-
-{\centering\fontsize{18}{23}\selectfont
-\textcolor{PosterPurple}{\rule{.50cm}{.28cm}}\,فضای حالت افرا\hspace{1.0cm}
-\textcolor{PosterGreen!80}{\rule{.50cm}{.28cm}}\,خارج‌قسمت وارسی‌شده\par}
+ابزار تا اینجا روی یازده فضای حالت اجرا شده است: چهار ورودی سنجه‌ای و هفت
+فضای حالت تولیدشده از مدل‌های ربکا. در هر یازده اجرا، وارسی‌گر مستقلِ درون
+ابزار پذیرفت که رابطهٔ میان ورودی و خارج‌قسمت یک شبیه‌سازی دوسویهٔ ضعیف
+زمان‌دار است.
 
 \PosterHighlight[PosterGreen]{%
-هر سه بیان — با ۱۶، ۲۵ و ۴۲ حالت — به یک افراز ۲۸ رده‌ای و در نهایت به یک مدل
-۱۰ حالتی و ۱۲ گذاری می‌رسند؛ سه نمودار که جداگانه رونویسی شده‌اند و روی یک
-خارج‌قسمت می‌نشینند.}
+\centering
+{\postertitlefont\fontsize{60}{66}\selectfont\color{PosterGreen}\pct{59.7}\par}
+\vspace{.10cm}
+{\fontsize{21}{27}\selectfont میانگین کاهش تعداد حالت‌ها روی همین یازده اجرا\par}
+\vspace{.22cm}
+\justifying
+این عدد فقط برای دادن شهودی از اثر الگوریتم آورده شده است؛ نه کران پایین است و
+نه کران بالا و هیچ تضمینی برای مدل‌های دیگر نمی‌دهد. مقدار کاهش به مجموعهٔ
+مشاهده و به ساختار خود مدل وابسته است و در همین یازده اجرا میان \pct{16.7} و
+\pct{89.5} نوسان داشته است.}
 
-{\postertitlefont\fontsize{28}{36}\selectfont پیش و پس از کاهش\par}
-\vspace{.18cm}
+{\postertitlefont\fontsize{28}{36}\selectfont نمونهٔ \code{mood}: دو بیان
+هم‌ارز و خارج‌قسمت مشترکشان\par}
+\vspace{.12cm}
 
+در \code{mood1} و \code{mood2} تنها \code{mood.LAUGH} و \code{mood.CRY} قابل
+مشاهده‌اند؛ بقیهٔ پیام‌ها $\tau$ می‌شوند. \code{mood1} انتظار را به دو گام
+می‌شکند و میانشان یک پیام پنهان دارد، \code{mood2} همان دوره را با یک انتظار
+یکپارچه بیان می‌کند. ابزار این دو را هم‌ارز اعلام می‌کند و هر دو به یک مدل
+خارج‌قسمتی می‌رسند.
+
+\vspace{.30cm}
 \begin{center}
-\begin{minipage}[t]{11.8cm}
+\begin{minipage}[b]{7.0cm}
   \centering
-  {\fontsize{20}{26}\selectfont\color{PosterPurple}\bfseries
-   فضای حالت ورودی افرا\par}
-  \vspace{.15cm}
-  \includegraphics[height=12.5cm]{assets/figures/smarthome-original.pdf}\par
-  \vspace{.15cm}
-  {\fontsize{19}{25}\selectfont ۱۶ حالت، ۱۸ گذار\par}
+  \includegraphics[width=7.0cm]{assets/figures/mood1.pdf}\par
+  \vspace{.22cm}
+  {\fontsize{20}{25}\selectfont\color{PosterPurple}\bfseries\code{mood1}\par}
+  {\fontsize{18}{23}\selectfont ۱۰ حالت، ۱۲ گذار\par}
 \end{minipage}%
 \hfill
-\begin{minipage}[t]{1.4cm}
+\begin{minipage}[b]{1.1cm}
   \centering
-  \vspace{5.7cm}
-  {\color{PosterGreen}$\boldsymbol{\longleftarrow}$}
+  \vspace{3.6cm}
+  {\color{PosterPurple}$\boldsymbol{\approx}$}\par
+  \vspace{4.6cm}
 \end{minipage}%
 \hfill
-\begin{minipage}[t]{10.2cm}
+\begin{minipage}[b]{7.0cm}
   \centering
-  {\fontsize{20}{26}\selectfont\color{PosterGreen}\bfseries
+  \includegraphics[width=7.0cm]{assets/figures/mood2.pdf}\par
+  \vspace{.22cm}
+  {\fontsize{20}{25}\selectfont\color{PosterPurple}\bfseries\code{mood2}\par}
+  {\fontsize{18}{23}\selectfont ۶ حالت، ۸ گذار\par}
+\end{minipage}%
+\hfill
+\begin{minipage}[b]{1.1cm}
+  \centering
+  \vspace{2.9cm}
+  {\color{PosterGreen}$\boldsymbol{\longleftarrow}$}\par
+  \vspace{4.6cm}
+\end{minipage}%
+\hfill
+\begin{minipage}[b]{8.6cm}
+  \centering
+  \includegraphics[width=8.6cm]{assets/figures/mood-quotient.pdf}\par
+  \vspace{.22cm}
+  {\fontsize{20}{25}\selectfont\color{PosterGreen}\bfseries
    مدل خارج‌قسمتی وارسی‌شده\par}
-  \vspace{.15cm}
-  \includegraphics[height=12.5cm]{assets/figures/smarthome-reduced.pdf}\par
-  \vspace{.15cm}
-  {\fontsize{19}{25}\selectfont ۱۰ حالت، ۱۲ گذار\par}
+  {\fontsize{18}{23}\selectfont ۵ حالت، ۶ گذار\par}
 \end{minipage}
 \end{center}
 
-\vspace{.05cm}
+\vspace{.10cm}
 {\fontsize{18}{24}\selectfont
 یال‌های قرمز و ضخیم گذر زمان‌اند و $\tau$ کنش داخلی پنهان‌شده است. هر درصد کاهش
 فقط در کنار همان مجموعهٔ مشاهده معنا دارد.\par}
