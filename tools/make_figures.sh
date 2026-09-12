@@ -47,7 +47,7 @@ for m in mood1 mood2; do
   java -jar "$AWTR_JAR" visualize \
     "$AWTR_ROOT/src/test/resources/rebeca-generated/$m.statespace" \
     --output "$TMP/$m.dot" >/dev/null
-  restyle "$TMP/$m.dot" "$OUT/$m.pdf" 32 27
+  restyle "$TMP/$m.dot" "$OUT/$m.pdf" 36 30
 done
 
 # Reducing either model yields the same quotient up to state naming; mood1's run
@@ -55,7 +55,7 @@ done
 java -jar "$AWTR_JAR" reduce \
   "$AWTR_ROOT/src/test/resources/rebeca-generated/mood1.statespace" \
   --observable "$MOOD_OBSERVABLE" --output-dir "$TMP/mood1-out" >/dev/null
-restyle "$TMP/mood1-out/reduced.dot" "$OUT/mood-quotient.pdf" 34 29
+restyle "$TMP/mood1-out/reduced.dot" "$OUT/mood-quotient.pdf" 38 32
 
 # The three README time-semantics models, laid out left-to-right: they are the
 # worked example for what "observable" means once time is involved.

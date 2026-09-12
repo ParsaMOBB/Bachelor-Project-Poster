@@ -1,85 +1,71 @@
 % ---------------------------------------------------------------------------
 % Results panel.  Every number here comes from the implementation repository
-% (tool 1.0.0): the four benchmark rows of evaluation/results.csv and the seven
+% (tool 1.0.0): the benchmark rows of evaluation/results.csv and the
 % RMC-generated fixtures under src/test/resources/rebeca-generated.  Nothing is
 % retyped from prose.
 %
-% The mean below is the unweighted mean of the eleven per-run state-reduction
-% ratios (16.7, 30.0, 37.5, 50.0, 60.0, 66.7, 69.6, 71.4, 76.2, 89.5, 89.5).
+% The panel deliberately reports no average reduction ratio.  A mean over the
+% models that happen to have been run is not a property of the algorithm: the
+% ratio depends on the observable set and on how the model was written, and it
+% is bounded neither below nor above.  What is worth claiming is what the tool
+% guarantees (every quotient independently re-checked) and what the runs
+% actually showed (differently sized expressions of one behaviour landing on
+% one quotient).
 % ---------------------------------------------------------------------------
 \newcommand{\ResultsContent}{%
 
-ابزار تا اینجا روی یازده فضای حالت اجرا شده است: چهار ورودی سنجه‌ای و هفت
-فضای حالت تولیدشده از مدل‌های ربکا. در هر یازده اجرا، وارسی‌گر مستقلِ درون
-ابزار پذیرفت که رابطهٔ میان ورودی و خارج‌قسمت یک شبیه‌سازی دوسویهٔ ضعیف
-زمان‌دار است.
-
+\vspace{-.30cm}
 \PosterHighlight[PosterGreen]{%
-\centering
-{\postertitlefont\fontsize{60}{66}\selectfont\color{PosterGreen}\pct{59.7}\par}
-\vspace{.10cm}
-{\fontsize{21}{27}\selectfont میانگین کاهش تعداد حالت‌ها روی همین یازده اجرا\par}
-\vspace{.22cm}
-\justifying
-این عدد فقط برای دادن شهودی از اثر الگوریتم آورده شده است؛ نه کران پایین است و
-نه کران بالا و هیچ تضمینی برای مدل‌های دیگر نمی‌دهد. مقدار کاهش به مجموعهٔ
-مشاهده و به ساختار خود مدل وابسته است و در همین یازده اجرا میان \pct{16.7} و
-\pct{89.5} نوسان داشته است.}
+\PosterLead{آنچه ابزار تضمین می‌کند:} هر خارج‌قسمت را وارسی‌گر مستقلِ درون ابزار
+دوباره می‌سنجد و تنها زمانی تحویل می‌دهد که رابطهٔ میان ورودی و خروجی واقعاً یک
+شبیه‌سازی دوسویهٔ ضعیف زمان‌دار باشد.
 
-{\postertitlefont\fontsize{28}{36}\selectfont نمونهٔ \code{mood}: دو بیان
-هم‌ارز و خارج‌قسمت مشترکشان\par}
+\vspace{.12cm}
+\PosterLead{آنچه در نمونه‌ها دیده شد:} بیان‌های متفاوت یک رفتار، با اندازه‌های
+بسیار متفاوت، به خارج‌قسمت یکسانی رسیدند؛ سه بیان خانهٔ هوشمند با ۱۶، ۲۵ و ۴۲
+حالت، هر سه به ۱۰ حالت و ۱۲ گذار.}
+
+{\postertitlefont\fontsize{28}{36}\selectfont
+دو بیان هم‌ارز و خارج‌قسمت مشترکشان\par}
 \vspace{.12cm}
 
-در \code{mood1} و \code{mood2} تنها \code{mood.LAUGH} و \code{mood.CRY} قابل
-مشاهده‌اند؛ بقیهٔ پیام‌ها $\tau$ می‌شوند. \code{mood1} انتظار را به دو گام
-می‌شکند و میانشان یک پیام پنهان دارد، \code{mood2} همان دوره را با یک انتظار
-یکپارچه بیان می‌کند. ابزار این دو را هم‌ارز اعلام می‌کند و هر دو به یک مدل
-خارج‌قسمتی می‌رسند.
+تنها \code{mood.LAUGH} و \code{mood.CRY} قابل مشاهده‌اند. \code{mood1} انتظار را
+به دو گام می‌شکند و میانشان یک پیام پنهان دارد؛ \code{mood2} همان دوره را یکپارچه
+می‌گذراند.
 
-\vspace{.30cm}
+\vspace{.22cm}
 \begin{center}
-\begin{minipage}[b]{7.0cm}
+\begin{minipage}[b]{7.2cm}
   \centering
-  \includegraphics[width=7.0cm]{assets/figures/mood1.pdf}\par
-  \vspace{.22cm}
-  {\fontsize{20}{25}\selectfont\color{PosterPurple}\bfseries\code{mood1}\par}
-  {\fontsize{18}{23}\selectfont ۱۰ حالت، ۱۲ گذار\par}
+  \includegraphics[width=7.2cm]{assets/figures/mood1.pdf}\par
+  \vspace{.20cm}
+  {\fontsize{22}{27}\selectfont\color{PosterPurple}\bfseries\code{mood1}\par}
+  {\fontsize{19}{24}\selectfont ۱۰ حالت، ۱۲ گذار\par}
 \end{minipage}%
 \hfill
-\begin{minipage}[b]{1.1cm}
+\begin{minipage}[b]{1.2cm}
   \centering
-  \vspace{3.6cm}
-  {\color{PosterPurple}$\boldsymbol{\approx}$}\par
+  {\fontsize{34}{40}\selectfont\color{PosterPurple}$\boldsymbol{\approx}$\par}
   \vspace{4.6cm}
 \end{minipage}%
 \hfill
-\begin{minipage}[b]{7.0cm}
+\begin{minipage}[b]{10.6cm}
   \centering
-  \includegraphics[width=7.0cm]{assets/figures/mood2.pdf}\par
-  \vspace{.22cm}
-  {\fontsize{20}{25}\selectfont\color{PosterPurple}\bfseries\code{mood2}\par}
-  {\fontsize{18}{23}\selectfont ۶ حالت، ۸ گذار\par}
-\end{minipage}%
-\hfill
-\begin{minipage}[b]{1.1cm}
-  \centering
-  \vspace{2.9cm}
-  {\color{PosterGreen}$\boldsymbol{\longleftarrow}$}\par
-  \vspace{4.6cm}
-\end{minipage}%
-\hfill
-\begin{minipage}[b]{8.6cm}
-  \centering
-  \includegraphics[width=8.6cm]{assets/figures/mood-quotient.pdf}\par
-  \vspace{.22cm}
-  {\fontsize{20}{25}\selectfont\color{PosterGreen}\bfseries
-   مدل خارج‌قسمتی وارسی‌شده\par}
-  {\fontsize{18}{23}\selectfont ۵ حالت، ۶ گذار\par}
+  \includegraphics[width=10.6cm]{assets/figures/mood2.pdf}\par
+  \vspace{.20cm}
+  {\fontsize{22}{27}\selectfont\color{PosterPurple}\bfseries\code{mood2}\par}
+  {\fontsize{19}{24}\selectfont ۶ حالت، ۸ گذار\par}
 \end{minipage}
 \end{center}
 
-\vspace{.10cm}
-{\fontsize{18}{24}\selectfont
-یال‌های قرمز و ضخیم گذر زمان‌اند و $\tau$ کنش داخلی پنهان‌شده است. هر درصد کاهش
-فقط در کنار همان مجموعهٔ مشاهده معنا دارد.\par}
+\vspace{.22cm}
+{\centering
+{\fontsize{21}{27}\selectfont\color{PosterGreen}\bfseries
+ $\boldsymbol{\downarrow}$\; هر دو به همین یک مدل کاهش می‌یابند\par}
+\vspace{.18cm}
+\includegraphics[width=9.6cm]{assets/figures/mood-quotient.pdf}\par
+\vspace{.20cm}
+{\fontsize{22}{27}\selectfont\color{PosterGreen}\bfseries
+ مدل خارج‌قسمتی وارسی‌شده\par}
+{\fontsize{19}{24}\selectfont ۵ حالت، ۶ گذار\par}}
 }
