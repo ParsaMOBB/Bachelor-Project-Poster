@@ -12,10 +12,10 @@
     fill=PosterPurple!#4,
     text=white,
     minimum width=7.05cm,
-    minimum height=1.82cm,
-    inner sep=.14cm
+    minimum height=1.62cm,
+    inner sep=.12cm
   ] (#1) at (#2)
-    {\RTLnodebox{6.55cm}{\centering\fontsize{17}{21}\selectfont #3\par}};
+    {\RTLnodebox{6.55cm}{\centering\fontsize{16}{20}\selectfont #3\par}};
 }
 
 % One labelled row of the time-semantics figure.  Built from minipages, not a
@@ -27,7 +27,7 @@
     \raggedright\fontsize{18}{22}\selectfont\bfseries #1%
   \end{minipage}%
   \begin{minipage}[c]{17.0cm}%
-    \includegraphics[height=2.76cm]{#2}%
+    \includegraphics[height=2.12cm]{#2}%
   \end{minipage}%
 }
 
@@ -44,34 +44,34 @@
   \StageChip{s2}{ 0.00,0}{پنهان‌سازی تعامل‌های\\[-.10cm]خارج از مجموعهٔ مشاهده}{86}
   \StageChip{s3}{-8.00,0}{شکستن یال‌های زمانی\\[-.10cm]به گام‌های یک‌واحدی}{72}
   % Row 2, also read from the right.
-  \StageChip{s4}{ 8.00,-2.72}{پالایش افراز\\[-.10cm]تا رسیدن به پایداری}{58}
-  \StageChip{s5}{ 0.00,-2.72}{ساخت خارج‌قسمت و\\[-.10cm]فشرده‌سازی زنجیرهٔ زمان}{44}
+  \StageChip{s4}{ 8.00,-2.48}{پالایش افراز\\[-.10cm]تا رسیدن به پایداری}{58}
+  \StageChip{s5}{ 0.00,-2.48}{ساخت خارج‌قسمت و\\[-.10cm]فشرده‌سازی زنجیرهٔ زمان}{44}
   \node[
     anchor=center,rounded corners=.26cm,fill=PosterGreen,text=white,
-    minimum width=7.05cm,minimum height=1.82cm,inner sep=.14cm
-  ] (s6) at (-8.00,-2.72)
-    {\RTLnodebox{6.55cm}{\centering\fontsize{17}{21}\selectfont
+    minimum width=7.05cm,minimum height=1.62cm,inner sep=.12cm
+  ] (s6) at (-8.00,-2.48)
+    {\RTLnodebox{6.55cm}{\centering\fontsize{16}{20}\selectfont
        وارسی مستقل\\[-.10cm]رابطهٔ خروجی و ورودی\par}};
 
   \draw[->,PosterPurple!70] (s1) -- (s2);
   \draw[->,PosterPurple!70] (s2) -- (s3);
-  \draw[->,PosterPurple!70] (s3.south) -- ++(0,-.40) -- (8.00,-1.37) -- (s4.north);
+  \draw[->,PosterPurple!70] (s3.south) -- ++(0,-.34) -- (8.00,-1.24) -- (s4.north);
   \draw[->,PosterPurple!70] (s4) -- (s5);
   \draw[->,PosterPurple!70] (s5) -- (s6);
 \end{tikzpicture}
 \end{center}
 
-{\postertitlefont\fontsize{27}{34}\selectfont زمان از دید مشاهده‌گر بیرونی\par}
+{\postertitlefont\fontsize{26}{32}\selectfont زمان از دید مشاهده‌گر بیرونی\par}
 \vspace{-.06cm}
 
-{\fontsize{19}{25}\selectfont یال سیاه \code{a} کنش قابل مشاهده، \code{tau}
-گذار داخلی، و یال‌های قرمز گذر زمان با مدت دقیق‌اند.\par}
+{\fontsize{18}{23}\selectfont یال سیاه \code{a} کنش قابل مشاهده، \code{tau} گذار
+داخلی و یال قرمز گذر زمان است.\par}
 
 \vspace{.04cm}
 \begin{latin}
 \centering
-\TTSRow{TTS 1}{assets/figures/observable-then-split-delay.pdf}\par\vspace{.30cm}
-\TTSRow{TTS 2}{assets/figures/observable-then-delay.pdf}\par\vspace{.30cm}
+\TTSRow{TTS 1}{assets/figures/observable-then-split-delay.pdf}\par\vspace{.14cm}
+\TTSRow{TTS 2}{assets/figures/observable-then-delay.pdf}\par\vspace{.14cm}
 \TTSRow{TTS 3}{assets/figures/delay-observable-delay.pdf}
 \end{latin}
 \vspace{.08cm}
@@ -79,20 +79,22 @@
 در \code{TTS 1} و \code{TTS 2} کنش \code{a} در لحظهٔ صفر رخ می‌دهد و سپس ده واحد
 زمان می‌گذرد؛ \code{tau} دیده نمی‌شود و زمان سپری‌شده را از نو آغاز نمی‌کند، پس
 این دو \textbf{هم‌ارزند}. در \code{TTS 3} هم ده واحد می‌گذرد، اما \code{a} پس از
-پنج واحد رخ می‌دهد — پنهان‌سازی روی گذارهای داخلی اعمال می‌شود، نه روی
-\emph{لحظهٔ} وقوع یک کنش قابل مشاهده، پس \textbf{هم‌ارز نیست}.
+پنج واحد رخ می‌دهد؛ پنهان‌سازی روی گذارهای داخلی اعمال می‌شود، نه روی
+\emph{لحظهٔ} وقوع یک کنش، پس \textbf{هم‌ارز نیست}.
 
 \vspace{.04cm}
-{\fontsize{20}{26}\selectfont
-\PosterLead{گام‌های الگوریتم ---}\par
-\PosterLead{۱.} هر یال زمانی با مدت $d$ به $d$ یال یک‌واحدی شکسته می‌شود؛
-حالت‌های میانیِ تازه شناسه‌های یکتا می‌گیرند تا با حالت‌های موجود اشتباه نشوند.\par
+{\fontsize{19}{24}\selectfont
+\PosterLead{گام‌های الگوریتم ---} ساختار کار از پالایش افرازِ گروته و واندراخر
+برای شبیه‌سازی دوسویهٔ \emph{انشعابی} روی \code{LTS} گرفته شده است~[۵].\par
+\PosterLead{۱.} هر یال زمانی با مدت $d$ به $d$ یال یک‌واحدی با شناسه‌های تازه
+شکسته می‌شود؛ ویژگی \emph{پیوستگی} \code{TTS} وجود این لحظه‌های میانی را تضمین
+می‌کند.\par
 \PosterLead{۲.} حالا همهٔ گذارهای زمانی برچسب یکسان \code{delay(1)} دارند، پس
-پالایش افراز زمان و کنش را یکنواخت بررسی می‌کند.\par
-\PosterLead{۳.} افراز تا پایداری پالایش می‌شود؛ سپس خارج‌قسمت ساخته و زنجیره‌های
-صرفاً زمانی در یک یال با مدت جمع‌شده فشرده می‌شوند.\par
-\vspace{.12cm}
+پالایش افراز زمان و کنش را یکنواخت و تا رسیدن به پایداری بررسی می‌کند.\par
+\PosterLead{۳.} خارج‌قسمت ساخته و زنجیره‌های صرفاً زمانی در یک یال با مدت
+جمع‌شده فشرده می‌شوند.\par
+\vspace{.10cm}
 \PosterLead{اعتبارسنجی:} توسعه آزمون‌محور (\code{TDD}) با ۱۱۶ آزمون واحد و ۶۲
-بررسی انتهابه‌انتها. وارسی‌گر در مسیر کدی \emph{جدا} از کاهش‌دهنده، رابطهٔ
-خروجی و ورودی را مستقل بازمی‌سنجد.\par}
+بررسی انتهابه‌انتها؛ وارسی‌گر در مسیر کدی \emph{جدا} از کاهش‌دهنده نتیجه را
+بازمی‌سنجد.\par}
 }

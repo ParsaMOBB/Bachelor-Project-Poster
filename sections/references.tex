@@ -1,5 +1,13 @@
 % Rendered as a full-width footer band, so the entries are split into three
-% manual columns rather than a single tall list.
+% manual columns rather than a single tall list.  The band grows upward from a
+% fixed bottom margin, so the tallest column decides how far it reaches; keep
+% the three columns within a line or two of each other or it will run into the
+% content columns above.
+%
+% Only the sources the poster actually leans on are listed: Rebeca and Timed
+% Rebeca for the modelling language, Afra for the input, Bérard et al. for the
+% definition of weak timed bisimilarity and the TTS properties, and Groote and
+% Vaandrager for the partition-refinement algorithm the method cites as [5].
 \newcommand{\ReferencesContent}{%
 \begin{latin}
 \fontsize{14}{18}\selectfont
@@ -18,18 +26,16 @@
     \item Rebeca Research Group, ``Afra: an integrated environment for modeling
           and verifying Rebeca family designs.''
           \nolinkurl{rebeca-lang.org/alltools/Afra}
-    \item F. Moller and C. Tofts, ``A temporal calculus of communicating
-          systems,'' in \textit{CONCUR '90}, LNCS 458, Springer, 1990,
-          pp.~401--415.
+    \item B. B\'erard, F. Cassez, S. Haddad, D. Lime, and O. H. Roux, ``When are
+          timed automata weakly timed bisimilar to time Petri nets?,''
+          \textit{Theoretical Computer Science}, vol.~403, pp.~202--220, 2008.
   \end{enumerate}
 \end{minipage}\hfill
 \begin{minipage}[t]{.325\linewidth}
   \begin{enumerate}[leftmargin=.85cm,itemsep=.09cm,topsep=0pt,parsep=0pt,start=5]
-    \item P.-A. Reynier and A. Sangnier, ``Weak time Petri nets strike back!,''
-          in \textit{CONCUR 2009}, LNCS 5710, Springer, 2009, pp.~557--571.
-    \item A. Lieb \textit{et al.}, ``Checking timed bisimilarity with virtual
-          clocks,'' \textit{Fundamenta Informaticae}, vol.~185, no.~1, 2025.
-          arXiv:2412.15799.
+    \item J. F. Groote and F. W. Vaandrager, ``An efficient algorithm for
+          branching bisimulation and stuttering equivalence,'' in
+          \textit{ICALP 1990}, LNCS 443, Springer, 1990, pp.~626--638.
   \end{enumerate}
 \end{minipage}
 
